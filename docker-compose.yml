@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+    cliapp:
+        build:
+            context: ./dockerfiles
+            dockerfile: Dockerfile.cliapp
+        image: chimera-cliapp
+        volumes:
+            - type: volume
+              source: data
+              target: /opt/chimera/data
+    webapp:
+        build:
+            context: ./dockerfiles
+            dockerfile: Dockerfile.webapp
+        image: chimera-webapp
+        volumes:
+            - type: volume
+              source: data
+              target: /opt/chimera/data
+        ports:
+            - "8080:80"
+
+volumes:
+  data:
