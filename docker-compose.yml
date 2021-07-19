@@ -1,26 +1,34 @@
 version: "3"
 
 services:
+    redis:
+        image: redis:latest
     cliapp:
         build:
             context: ./dockerfiles
             dockerfile: Dockerfile.cliapp
         image: chimera-cliapp
-        volumes:
-            - type: volume
-              source: data
-              target: /opt/chimera/data
+        # volumes:
+        #     - type: volume
+        #       source: data
+        #       target: /opt/chimera/data
+        environment:
+            - REDIS_PORT=6379
+            - REDIS_HOST=redis
     webapp:
         build:
             context: ./dockerfiles
             dockerfile: Dockerfile.webapp
         image: chimera-webapp
-        volumes:
-            - type: volume
-              source: data
-              target: /opt/chimera/data
+        # volumes:
+        #     - type: volume
+        #       source: data
+        #       target: /opt/chimera/data
         ports:
             - "8080:80"
+        environment:
+            - REDIS_PORT=6379
+            - REDIS_HOST=redis
 
-volumes:
-  data:
+# volumes:
+#   data:
